@@ -1,0 +1,53 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 600;
+  background-color: rgba(149, 202, 252, 1);
+  color: rgb(20, 54, 105);
+}
+
+.addtodotext {
+  border: none;
+  background-color: rgb(170, 211, 250);
+  font-size: 15px;
+}
+::placeholder {
+  color: rgb(20, 54, 105);
+}
+
+.button {
+  border: none;
+  border-radius: 10px;
+  margin-left: 5px;
+  color: rgb(20, 54, 105);
+  font-weight: 500;
+  cursor: pointer;
+  background: rgb(149, 202, 252);
+}
+.button:hover {
+  background: rgb(117, 188, 255);
+}
+
+.selector {
+  margin-left: 5px;
+  color: rgb(20, 54, 105);
+}
+
+ul {
+  border-top: 1px solid rgb(161, 176, 190);
+  margin: 20px auto;
+  padding: 20px 0;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.todo-text {
+  padding: 10px;
+}

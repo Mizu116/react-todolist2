@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Filtering } from "./filtering";
 import "./style.css";
 
 export default function App() {
@@ -9,7 +10,7 @@ export default function App() {
   const [editIndex, setEditIndex] = useState();
   const [filter, setFilter] = useState("all");
 
-  function handleFormSubmit(e) {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (todo !== "") {
       setTodos([
@@ -22,9 +23,9 @@ export default function App() {
       ]);
       setTodo("");
     }
-  }
+  };
 
-  function handleEditSubmit(e) {
+  const handleEditSubmit = (e) => {
     e.preventDefault();
     if (editTodo === "") {
       handleDelete(editIndex);
@@ -38,42 +39,49 @@ export default function App() {
       );
       setEditModeIsActive(false);
     }
-  }
+  };
 
-  function handleInputChange(e) {
+  const handleInputChange = (e) => {
     setTodo(e.target.value);
-  }
+  };
 
-  function handleEditTodo(e) {
+  const handleEditTodo = (e) => {
     setEditTodo(e.target.value);
-  }
+  };
 
-  function handleEditMode(index) {
+  const handleEditMode = (index) => {
     console.log(todos);
     setEditTodo(todos[index].text);
     setEditIndex(index);
     setEditModeIsActive(true);
-  }
+  };
 
-  function handleDelete(index) {
+  const handleDelete = (index) => {
     setTodos(
       todos.filter((_todo, indexTodos) => {
         return indexTodos !== index;
       })
     );
     setEditModeIsActive(false);
-  }
+  };
 
-  function handleOptionSelect(e, idEvent) {
+  const handleOptionSelect = (e, idEvent) => {
     e.preventDefault();
     setTodos(
       todos.map((entry) => {
-        if (entry.id === idEvent) {
-          return { text: entry.text, id: entry.id, status: e.target.value };
-        } else return entry;
+        return entry.id === idEvent
+          ? { text: entry.text, id: entry.id, status: e.target.value }
+          : entry;
       })
     );
-  }
+  };
+
+  const filterOptions = [
+    { value: "all", text: "全て" },
+    { value: "inactive", text: "着手予定" },
+    { value: "incomplete", text: "着手" },
+    { value: "complete", text: "完了" },
+  ];
 
   return (
     <div className="App">
@@ -88,17 +96,21 @@ export default function App() {
             value={todo}
             onChange={handleInputChange}
           />
-          <input
-            name="submit"
-            type="submit"
-            value="追加"
-            className="button"
-          />
-          <select className='selector' value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="all">全て</option>
+          <input name="submit" type="submit" value="追加" className="button" />
+          <select
+            className="selector"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            {filterOptions.map((option) => (
+              <option key={option.text} value={option.value}>
+                {option.text}
+              </option>
+            ))}
+            {/* <option value="all">全て</option>
             <option value="inactive">着手予定</option>
             <option value="incomplete">着手</option>
-            <option value="complete">完了</option>
+            <option value="complete">完了</option> */}
           </select>
         </form>
       )}
@@ -110,18 +122,14 @@ export default function App() {
             value={editTodo}
             onChange={handleEditTodo}
           />
-          <input
-            name="submit"
-            type="submit"
-            value="完了"
-            className="Addbutton"
-          />{" "}
-          <select className='selector' value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <input name="submit" type="submit" value="完了" className="button" />{" "}
+          <Filtering filter={filter} setFilter={setFilter} />
+          {/* <select className='selector' value={filter} onChange={(e) =>setFilter(e.target.value)}>
             <option value="all">全て</option>
             <option value="inactive">着手予定</option>
             <option value="incomplete">着手</option>
             <option value="complete">完了</option>
-          </select>
+          </select> */}
         </form>
       )}
       <ul className="todo-list">
@@ -131,7 +139,7 @@ export default function App() {
               <li key={todo.id}>
                 <span className="todo-text">{todo.text}</span>
                 <select
-                  className='selector'
+                  className="selector"
                   value={todo.status}
                   onChange={(e) => handleOptionSelect(e, todo.id)}
                 >
@@ -139,8 +147,15 @@ export default function App() {
                   <option value="incomplete">着手</option>
                   <option value="complete">完了</option>
                 </select>
-                <button className="button" onClick={() => handleEditMode(index)}>編集</button>
-                <button className="button" onClick={() => handleDelete(index)}>削除</button>
+                <button
+                  className="button"
+                  onClick={() => handleEditMode(index)}
+                >
+                  編集
+                </button>
+                <button className="button" onClick={() => handleDelete(index)}>
+                  削除
+                </button>
               </li>
             )
         )}
